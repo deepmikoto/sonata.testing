@@ -1,0 +1,251 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: sonata/sonata_pages.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id: ~
+    fragments: ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+
+# app/config/config.yml
+sonata_cache:
+    caches:
+        symfony:
+            token: s3cur3 # token used to clear the related cache
+            php_cache_enabled: true # Optional (default: false), clear APC or PHP OPcache
+            types: [mytype1, mycustomtype2] # Optional, you can restrict allowed cache types
+            servers:
+                - { domain: kooqit.local, ip: 127.0.0.1, port: 80 }
+            timeout:
+                RCV: { sec: 2, usec: 0 }
+                SND: { sec: 2, usec: 0 }
+
+sonata_seo:
+    encoding:         UTF-8
+    page:
+        title:            Sonata Project
+        default:          sonata.seo.page.default
+        metas:
+            name:
+                keywords:             foo bar
+                description:          The description
+                robots:               index, follow
+
+            property:
+                # Facebook application settings
+                #'fb:app_id':          XXXXXX
+                #'fb:admins':          admin1, admin2
+
+                # Open Graph information
+                # see http://developers.facebook.com/docs/opengraphprotocol/#types or http://ogp.me/
+                'og:site_name':       Sonata Project Sandbox
+                'og:description':     A demo of the some rich bundles for your Symfony2 projects
+
+            http-equiv:
+                'Content-Type':         text/html; charset=utf-8
+                #'X-Ua-Compatible':      IE=EmulateIE7
+
+            charset:
+                UTF-8:    ''
+
+        head:
+            'xmlns':              http://www.w3.org/1999/xhtml
+            'xmlns:og':           http://opengraphprotocol.org/schema/
+            #'xmlns:fb':           "http://www.facebook.com/2008/fbml"
+
+sonata_notification:
+    backend: sonata.notification.backend.runtime
+    admin:
+        enabled: false
+
+cmf_routing:
+    chain:
+        routers_by_id:
+            # enable the DynamicRouter with high priority to allow overwriting configured routes with content
+            #cmf_routing.dynamic_router: 200
+            # enable the symfony default router with a lower priority
+            sonata.page.router: 150
+            router.default: 100
+
+sonata_page:
+    slugify_service:   sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
+    # Generates a snapshot when a page is saved (from the admin)
+    direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
+    multisite: host
+    use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
+    ignore_route_patterns:
+        - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
+        - ^_(.*)          # ignore symfony routes
+
+    ignore_routes:
+        - sonata_page_cache_esi
+        - sonata_page_cache_ssi
+        - sonata_page_js_sync_cache
+        - sonata_page_js_async_cache
+        - sonata_cache_esi
+        - sonata_cache_ssi
+        - sonata_cache_js_async
+        - sonata_cache_js_sync
+        - sonata_cache_apc
+
+    ignore_uri_patterns:
+        - ^/admin\/   # ignore admin route, ie route containing 'admin'
+
+    page_defaults:
+        homepage: {decorate: false} # disable decoration for homepage, key - is a page route
+
+    default_template: default # template key from templates section, used as default for pages
+    templates:
+        default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
+        2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
+
+    # manage the http errors
+    catch_exceptions:
+        not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
+        fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
+
+
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+    profile:
+        # Profile show page is a dashboard as in SonataAdminBundle
+        dashboard:
+            blocks:
+                - { position: left, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> This is a sample user profile dashboard, feel free to override it in the configuration! Want to make this text dynamic? For instance display the user's name? Create a dedicated block and edit the configuration!"} }
+                - { position: left, type: sonata.order.block.recent_orders, settings: { title: Recent Orders, number: 5, mode: public }}
+                - { position: right, type: sonata.timeline.block.timeline, settings: { max_per_page: 15 }}
+                - { position: right, type: sonata.news.block.recent_posts, settings: { title: Recent Posts, number: 5, mode: public }}
+                - { position: right, type: sonata.news.block.recent_comments, settings: { title: Recent Comments, number: 5, mode: public }}
+        # Customize user portal menu by setting links
+        menu:
+            - { route: 'sonata_user_profile_show', label: 'sonata_profile_title', domain: 'SonataUserBundle'}
+            - { route: 'sonata_user_profile_edit', label: 'link_edit_profile', domain: 'SonataUserBundle'}
+            - { route: 'sonata_customer_addresses', label: 'link_list_addresses', domain: 'SonataCustomerBundle'}
+            - { route: 'sonata_user_profile_edit_authentication', label: 'link_edit_authentication', domain: 'SonataUserBundle'}
+            - { route: 'sonata_order_index', label: 'order_list', domain: 'SonataOrderBundle'}
+
+sonata_block:
+    default_contexts: [sonata_page_bundle]
+    context_manager: sonata.page.block.context_manager
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text:
+        app.sonata.block.rss:
+
+fos_user:
+    db_driver:      orm # can be orm or odm
+    firewall_name:  main
+    user_class:     \Application\Sonata\UserBundle\Entity\User
+
+
+    group:
+        group_class:   \Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+
+    service:
+        user_manager: sonata.user.orm.user_manager
+
+sonata_admin:
+    assets:
+        javascripts:
+            - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
+            - bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.min.js
+            - bundles/sonatacore/vendor/moment/min/moment.min.js
+            - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
+            - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js
+            - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
+            - bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js
+            - bundles/sonataadmin/vendor/jquery-form/jquery.form.js
+            - bundles/sonataadmin/jquery/jquery.confirmExit.js
+            - bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js
+            - bundles/sonatacore/vendor/select2/select2.min.js
+            - bundles/sonataadmin/vendor/admin-lte/dist/js/app.min.js
+            - bundles/sonataadmin/vendor/iCheck/icheck.min.js
+            - bundles/sonataadmin/vendor/slimScroll/jquery.slimscroll.min.js
+            - bundles/sonataadmin/vendor/waypoints/lib/jquery.waypoints.min.js
+            - bundles/sonataadmin/vendor/waypoints/lib/shortcuts/sticky.min.js
+            - bundles/sonataadmin/Admin.js
+            - bundles/sonataadmin/treeview.js
+            - bundles/sonatapage/sonata-page.back.min.js
+        stylesheets:
+            - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
+            - bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css
+            - bundles/sonatacore/vendor/ionicons/css/ionicons.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css
+            - bundles/sonataadmin/vendor/iCheck/skins/square/blue.css
+            - bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css
+            - bundles/sonataadmin/vendor/jqueryui/themes/base/jquery-ui.css
+            - bundles/sonatacore/vendor/select2/select2.css
+            - bundles/sonatacore/vendor/select2-bootstrap-css/select2-bootstrap.min.css
+            - bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
+            - bundles/sonataadmin/css/styles.css
+            - bundles/sonataadmin/css/layout.css
+            - bundles/sonataadmin/css/tree.css
+            - bundles/sonatapage/sonata-page.back.css
