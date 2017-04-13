@@ -197,6 +197,10 @@ sonata_block:
         sonata.user.block.account: # used to display menu option (login option)
         sonata.block.service.text:
         app.sonata.block.rss:
+        app.sonata.block.menu:
+#        sonata.block.service.menu:
+
+knp_menu:
 
 fos_user:
     db_driver:      orm # can be orm or odm
