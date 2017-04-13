@@ -1,4 +1,8 @@
-.checkout
-=========
+Project for testing Sonata Bundles
+==================================
 
-A Symfony project created on April 13, 2017, 10:31 am.
+- Sonata Admin Bundle
+- Sonata User Bundle
+- Sonata Page Bundle
+- Sonata Block Bundle
+- Sonata Media Bundle
