@@ -9,16 +9,19 @@
 namespace AppBundle\Blocks;
 
 
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\CoreBundle\Model\Metadata;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RSSReaderBlock extends AbstractBlockService
+class RSSReaderBlock extends AbstractAdminBlockService
 {
-    public function setDefaultSettings(OptionsResolverInterface $resolver)
+    public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'url'       => false,
@@ -65,12 +68,35 @@ class RSSReaderBlock extends AbstractBlockService
                     
                 }
             }
-            
-            return $this->renderResponse($blockContext->getTemplate(),[
-                'feeds' => $feeds,
-                'block' => $blockContext->getBlock(),
-                'settings' => $settings
-            ], $response);
         }
+
+        return $this->renderResponse($blockContext->getTemplate(),[
+            'feeds' => $feeds,
+            'block' => $blockContext->getBlock(),
+            'settings' => $settings
+        ], $response);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    {
+        $formMapper->add('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('url', 'url', array('required' => false)),
+                array('title', 'text', array('required' => false)),
+            ),
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockMetadata($code = null)
+    {
+        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), false, 'SonataBlockBundle', [
+            'class' => 'fa fa-rss-square',
+        ]);
     }
 }
