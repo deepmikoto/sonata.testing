@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: sonata/sonata_pages.yml }
+    - { resource: sonata/sonata_formatter.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -35,6 +36,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'SonataFormatterBundle:Form:formatter.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -193,12 +196,12 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts: [admin]
-        sonata.user.block.menu:    # used to display the menu in profile pages
-        sonata.user.block.account: # used to display menu option (login option)
         sonata.block.service.text:
         app.sonata.block.rss:
         app.sonata.block.menu:
-#        sonata.block.service.menu:
+        app.sonata.block.bptb:
+        app.sonata.block.content_subheader:
+        app.sonata.block.content_wysiwyg:
 
 knp_menu:
 
@@ -215,10 +218,21 @@ fos_user:
     service:
         user_manager: sonata.user.orm.user_manager
 
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
 sonata_admin:
     assets:
         javascripts:
             - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
+            - bundles/ivoryckeditor/ckeditor.js
+            - bundles/sonataformatter/vendor/markitup-markitup/markitup/jquery.markitup.js
+            - bundles/sonataformatter/markitup/sets/markdown/set.js
+            - bundles/sonataformatter/markitup/sets/html/set.js
+            - bundles/sonataformatter/markitup/sets/textile/set.js
             - bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.min.js
             - bundles/sonatacore/vendor/moment/min/moment.min.js
             - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
@@ -239,6 +253,10 @@ sonata_admin:
             - bundles/sonatapage/sonata-page.back.min.js
         stylesheets:
             - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
+            - bundles/sonataformatter/markitup/skins/sonata/style.css
+            - bundles/sonataformatter/markitup/sets/markdown/style.css
+            - bundles/sonataformatter/markitup/sets/html/style.css
+            - bundles/sonataformatter/markitup/sets/textile/style.css
             - bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css
             - bundles/sonatacore/vendor/ionicons/css/ionicons.min.css
             - bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.min.css

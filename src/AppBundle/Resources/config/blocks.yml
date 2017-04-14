@@ -1,0 +1,41 @@
+services:
+    app.sonata.block.rss:
+        class: AppBundle\Blocks\RSSReaderBlock
+        arguments:
+            - app.sonata.block.rss
+            - "@templating"
+        tags:
+            - { name: sonata.block }
+
+    app.sonata.block.bptb:
+        class: AppBundle\Blocks\BigPictureTitleBlock
+        arguments:
+            - app.sonata.block.big.picture.title
+            - "@templating"
+        tags:
+            - { name: sonata.block }
+
+    app.sonata.block.content_subheader:
+        class: AppBundle\Blocks\ContentSubheaderBlock
+        arguments:
+            - app.sonata.block.content.subheader
+            - "@templating"
+        tags:
+            - { name: sonata.block }
+
+    app.sonata.block.content_wysiwyg:
+        class: AppBundle\Blocks\ContentWysiwygBlock
+        arguments:
+            - app.sonata.block.content.wysiwyg
+            - "@templating"
+        tags:
+            - { name: sonata.block }
+
+    app.sonata.block.menu:
+        class: AppBundle\Blocks\MenuBlock
+        arguments:
+            - app.sonata.block.menu
+            - "@templating"
+            - "@knp_menu.menu_provider"
+        tags:
+            - { name: sonata.block }

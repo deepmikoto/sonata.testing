@@ -9,6 +9,7 @@
 namespace AppBundle\Blocks;
 
 
+use Knp\Menu\Provider\ChainProvider;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\BlockBundle\Block\Service\MenuBlockService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -17,8 +18,6 @@ class MenuBlock extends MenuBlockService
 {
     public function __construct($name, EngineInterface $templating, MenuProviderInterface $menuProvider)
     {
-
-
         parent::__construct($name, $templating, $menuProvider, ['main' => 'main menu label', 'sidebar' => 'sidebar label']);
     }
 }
