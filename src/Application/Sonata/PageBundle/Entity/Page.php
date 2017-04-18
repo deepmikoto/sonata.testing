@@ -31,6 +31,11 @@ class Page extends BasePage
     protected $id;
 
     /**
+     * @var
+     */
+    protected $showInMenus;
+
+    /**
      * Get id
      *
      * @return int $id
@@ -38,5 +43,21 @@ class Page extends BasePage
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShowInMenus()
+    {
+        return $this->showInMenus;
+    }
+
+    /**
+     * @param mixed $showInMenus
+     */
+    public function setShowInMenus($showInMenus)
+    {
+        $this->showInMenus = $showInMenus;
     }
 }

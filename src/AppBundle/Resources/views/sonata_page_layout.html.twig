@@ -2,11 +2,21 @@
 
 {% block sonata_page_stylesheets %}
     {{ parent() }}
+    {% block extra_css %}
+    {% endblock %}
+{% endblock %}
+
+{% block sonata_page_body_tag %} {# optional, just to remove the .sonata-bc class #}
+    <body>
 {% endblock %}
 
 {% block sonata_page_container %}
+    {% block sonata_page_content %}
+    {% endblock %}
 {% endblock %}
 
 {% block sonata_page_javascripts %}
     {{ parent() }}
+    {% block extra_js %}
+    {% endblock %}
 {% endblock %}

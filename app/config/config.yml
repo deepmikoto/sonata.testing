@@ -133,6 +133,7 @@ cmf_routing:
             router.default: 100
 
 sonata_page:
+    hide_disabled_blocks: true
     slugify_service:   sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
     # Generates a snapshot when a page is saved (from the admin)
     direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
@@ -197,6 +198,7 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts: [admin]
         sonata.block.service.text:
+        sonata.page.block.shared_block:
         app.sonata.block.rss:
         app.sonata.block.menu:
         app.sonata.block.bptb:

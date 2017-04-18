@@ -8,50 +8,67 @@
 
 namespace AppBundle\Menu;
 
+use Application\Sonata\PageBundle\Entity\Page;
+use Application\Sonata\PageBundle\Entity\Site;
+use Doctrine\ORM\EntityManager;
 use Knp\Menu\FactoryInterface;
+use Sonata\PageBundle\Admin\PageAdmin;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
 
 class MenuBuilder
 {
     private $factory;
 
     /**
-     * @param FactoryInterface $factory
-     *
-     * Add any other dependency you need
+     * @var EntityManager
      */
-    public function __construct(FactoryInterface $factory)
+    private $em;
+
+    /**
+     * @var CmsPageManager
+     */
+    private $pageManager;
+
+    /**
+     * MenuBuilder constructor.
+     * @param FactoryInterface $factory
+     * @param CmsPageManager $pageManager
+     */
+    public function __construct(FactoryInterface $factory, EntityManager $em, CmsPageManager $pageManager)
     {
         $this->factory = $factory;
+        $this->em = $em;
+        $this->pageManager = $pageManager;
     }
 
-    public function createMainMenu(array $options)
+    public function createHomepageChildrenMenu(array $options)
     {
         $menu = $this->factory->createItem('root');
+        /** @var Page $page */
+        $page = $this->pageManager->getCurrentPage();
+        if ($page) {
+            /** @var Site $site */
+            $site = $page->getSite();
+            if ($site) {
+                $homepage = $this->em->getRepository(Page::class)->findOneBy([
+                    'site' => $site,
+                    'parent' => null,
+                    'url' => '/'
+                ]);
+                if ($homepage) {
+                    /** @var Page $child */
+                    foreach ($homepage->getChildren() as $child) {
+                       // dump($child);
+                    }
 
-        $menu->addChild('google', array('url' => 'http://google.ro'));
-        
+                }
+            }
 
-        return $menu;
-    }
 
-    public function createSidebarMenu(array $options)
-    {
-        $menu = $this->factory->createItem('sidebar');
-
-        if (isset($options['include_homepage']) && $options['include_homepage']) {
-            $menu->addChild('Home', array('route' => 'homepage'));
+            //$menu->addChild('google', array('url' => 'http://google.ro'));
         }
 
-        $menu->addChild('google', array('url' => 'http://google.ro'));
-        $menu->addChild('google1', array('url' => 'http://google.ro'));
-        $menu->addChild('google2', array('url' => 'http://google.ro'));
-        $menu->addChild('google3', array('url' => 'http://google.ro'));
-        $menu->addChild('google4', array('url' => 'http://google.ro'));
-        $menu->addChild('google5', array('url' => 'http://google.ro'));
-        $menu->addChild('google6', array('url' => 'http://google.ro'));
 
-
-        // ... add more children
 
         return $menu;
     }
