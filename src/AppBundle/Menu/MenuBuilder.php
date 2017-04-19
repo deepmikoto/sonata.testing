@@ -58,7 +58,11 @@ class MenuBuilder
                 if ($homepage) {
                     /** @var Page $child */
                     foreach ($homepage->getChildren() as $child) {
-                       // dump($child);
+                        if ($child->getShowInMenus()) {
+                           $menu->addChild($child->getName(),[
+                               'uri' => $child->getUrl()
+                           ]);
+                        }
                     }
 
                 }

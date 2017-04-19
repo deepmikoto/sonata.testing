@@ -11,6 +11,11 @@
 {% block sonata_page_content %}
     {{ sonata_page_render_container('header', page) }}
     <div class="container">
+        {% block sonata_page_breadcrumb %}
+            <div class="row">
+                {{ sonata_page_breadcrumb(page, {}) }}
+            </div>
+        {% endblock %}
         <div class="row">
             {{ sonata_page_render_container('content_top', page) }}
         </div>
