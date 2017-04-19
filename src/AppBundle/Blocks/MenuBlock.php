@@ -29,7 +29,7 @@ class MenuBlock extends MenuBlockService
         $resolver->setDefaults(array(
             'title' => $this->getName(),
             'cache_policy' => 'public',
-            'template' => [],//'',
+            'template' => 'SonataBlockBundle:Block:block_core_menu.html.twig',
             'menu_name' => '',
             'safe_labels' => false,
             'current_class' => 'active',

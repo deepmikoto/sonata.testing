@@ -162,7 +162,6 @@ hr.small {
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-    margin-bottom: 50px
 }
 
 .intro-header .page-heading,.intro-header .post-heading,.intro-header .site-heading {
@@ -425,4 +424,11 @@ img::selection {
 img::-moz-selection {
     color: #fff;
     background: 0 0
+}
+
+.sonata-page-breadcrumbs li {
+    display: inline;
+}
+.sonata-page-breadcrumbs li a {
+    padding: 5px 10px;
 }

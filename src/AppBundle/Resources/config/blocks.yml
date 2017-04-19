@@ -39,3 +39,11 @@ services:
             - "@knp_menu.menu_provider"
         tags:
             - { name: sonata.block }
+
+    app.sonata.block.breadcrumb:
+        class: AppBundle\Blocks\BreadcrumbBlock
+        arguments:
+            - app.sonata.block.breadcrumb
+            - "@templating"
+        tags:
+            - { name: sonata.block }

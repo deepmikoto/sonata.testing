@@ -11,3 +11,4 @@ sonata_block:
         app.sonata.block.bptb:
         app.sonata.block.content_subheader:
         app.sonata.block.content_wysiwyg:
+        app.sonata.block.breadcrumb:

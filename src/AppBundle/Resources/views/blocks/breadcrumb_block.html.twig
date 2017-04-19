@@ -1,0 +1,10 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {{ sonata_page_breadcrumb(block.page, {
+        'separator': block.settings.separator|default(null),
+        'current_class': block.settings.current_class|default(null),
+        'last_separator': block.settings.last_separator|default(null),
+        'force_view_home_page': block.settings.force_view_homepage|default(false)
+    }) }}
+{% endblock %}

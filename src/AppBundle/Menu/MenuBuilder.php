@@ -65,7 +65,7 @@ class MenuBuilder
                 ]);
                 /** @var Page $child */
                 foreach ($homepage->getChildren() as $child) {
-                    if ($child->getShowInMenus()) {
+                    if ($child->getShowInMenus() && $child->getEnabled()) {
                         $menu->addChild($child->getName(),[
                             'uri' => $child->getUrl(),
                         ]);
