@@ -4,6 +4,6 @@ imports:
 services:
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager", "@sonata.page.cms.page"]
+        arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager", "@request_stack"]
         tags:
             - { name: knp_menu.menu_builder, method: createHomepageChildrenMenu, alias: homepageChildren }

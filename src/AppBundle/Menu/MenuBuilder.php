@@ -12,8 +12,8 @@ use Application\Sonata\PageBundle\Entity\Page;
 use Application\Sonata\PageBundle\Entity\Site;
 use Doctrine\ORM\EntityManager;
 use Knp\Menu\FactoryInterface;
-use Sonata\PageBundle\Admin\PageAdmin;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MenuBuilder
 {
@@ -25,54 +25,57 @@ class MenuBuilder
     private $em;
 
     /**
-     * @var CmsPageManager
+     * @var Request
      */
-    private $pageManager;
+    private $request;
 
     /**
      * MenuBuilder constructor.
      * @param FactoryInterface $factory
-     * @param CmsPageManager $pageManager
+     * @param EntityManager $em
+     * @param RequestStack $requestStack
      */
-    public function __construct(FactoryInterface $factory, EntityManager $em, CmsPageManager $pageManager)
+    public function __construct(FactoryInterface $factory, EntityManager $em, RequestStack $requestStack)
     {
         $this->factory = $factory;
         $this->em = $em;
-        $this->pageManager = $pageManager;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function createHomepageChildrenMenu(array $options)
+    public function createHomepageChildrenMenu($options)
     {
         $menu = $this->factory->createItem('root');
-        /** @var Page $page */
-        $page = $this->pageManager->getCurrentPage();
-        if ($page) {
-            /** @var Site $site */
-            $site = $page->getSite();
-            if ($site) {
-                $homepage = $this->em->getRepository(Page::class)->findOneBy([
-                    'site' => $site,
-                    'parent' => null,
-                    'url' => '/'
+        if (array_key_exists('menu_class', $options)) {
+            $menu->setChildrenAttribute('class', $options['menu_class']);
+        }
+        $host = $this->request->getHost();
+        /** @var Site $site */
+        $site = $this->em->getRepository(Site::class)->findOneBy([
+            'host' => $host
+        ]);
+        if ($site) {
+            $homepage = $this->em->getRepository(Page::class)->findOneBy([
+                'site' => $site,
+                'parent' => null,
+                'url' => '/'
+            ]);
+            if ($homepage) {
+                $menu->addChild($homepage->getName(), [
+                    'uri' => $homepage->getUrl()
                 ]);
-                if ($homepage) {
-                    /** @var Page $child */
-                    foreach ($homepage->getChildren() as $child) {
-                        if ($child->getShowInMenus()) {
-                           $menu->addChild($child->getName(),[
-                               'uri' => $child->getUrl()
-                           ]);
+                /** @var Page $child */
+                foreach ($homepage->getChildren() as $child) {
+                    if ($child->getShowInMenus()) {
+                        $menu->addChild($child->getName(),[
+                            'uri' => $child->getUrl(),
+                        ]);
+                        if (array_key_exists('children_class', $options)) {
+                            $menu->getChild($child->getName())->setAttribute('class', $options['children_class']);
                         }
                     }
-
                 }
             }
-
-
-            //$menu->addChild('google', array('url' => 'http://google.ro'));
         }
-
-
 
         return $menu;
     }

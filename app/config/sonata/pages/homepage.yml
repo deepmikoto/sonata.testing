@@ -1,7 +1,7 @@
 sonata_page:
     templates:
         homepage:
-            path: 'AppBundle:pages:homepage.html.twig'
+            path: 'AppBundle:layouts:homepage.html.twig'
             name: 'homepage'
             containers:
                 header:

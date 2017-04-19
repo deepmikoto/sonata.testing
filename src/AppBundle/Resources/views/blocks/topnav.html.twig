@@ -1,0 +1,15 @@
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="/">{{ sonata_seo_title()|striptags }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% set menu = knp_menu_get(menu, [], {'menu_class':block.settings.menu_class|default(''), 'children_class': block.settings.children_class|default('')}) %}
+            {{ knp_menu_render(menu, menu_options) }}
+        </div>
+    </div>
+</nav>
