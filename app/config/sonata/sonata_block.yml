@@ -1,0 +1,13 @@
+sonata_block:
+    default_contexts: [sonata_page_bundle]
+    context_manager: sonata.page.block.context_manager
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]
+        sonata.block.service.text:
+        sonata.page.block.shared_block:
+        app.sonata.block.rss:
+        app.sonata.block.menu:
+        app.sonata.block.bptb:
+        app.sonata.block.content_subheader:
+        app.sonata.block.content_wysiwyg:

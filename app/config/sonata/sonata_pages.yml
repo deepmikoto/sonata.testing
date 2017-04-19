@@ -1,3 +1,0 @@
-imports:
-    - { resource: pages/homepage.yml }
-    - { resource: pages/news_details.yml }
