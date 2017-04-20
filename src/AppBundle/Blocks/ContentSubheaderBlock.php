@@ -42,10 +42,19 @@ class ContentSubheaderBlock extends AbstractAdminBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', [
-            'keys' => [
-                ['subheader', 'text', ['required' => false]]
-            ],
+        $formMapper->add('translations', 'a2lix_translations',[
+            'label' => 'app.form.label.translatable_fields',
+            'fields' => [
+                'translatableFields' => [
+                    'label' => false,
+                    'field_type' => 'sonata_type_immutable_array',
+                    'keys' => [
+                        ['subheader', 'text', [
+                            'required' => true
+                        ]]
+                    ]
+                ]
+            ]
         ]);
     }
 

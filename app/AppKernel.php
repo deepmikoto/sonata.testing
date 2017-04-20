@@ -41,6 +41,10 @@ class AppKernel extends Kernel
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Sonata\FormatterBundle\SonataFormatterBundle(),
 
+            // A2lix translations
+            new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
+            new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
+
             new AppBundle\AppBundle(),
         );
 
