@@ -25,20 +25,28 @@ use Symfony\Component\Validator\Constraints\Url;
 
 class ContentWysiwygBlock extends AbstractAdminBlockService
 {
+    use EntityManagerAwareBlockTrait;
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'content'  => null,
             'template'  => 'AppBundle:blocks:content_wysiwyg_block.html.twig'
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         $settings = $blockContext->getSettings();
+        $block = $this->refreshBlock($blockContext->getBlock());
 
         return $this->renderResponse($blockContext->getTemplate(),[
-            'block' => $blockContext->getBlock(),
+            'block' => $block,
             'settings' => $settings
         ], $response);
     }
@@ -48,12 +56,19 @@ class ContentWysiwygBlock extends AbstractAdminBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', [
-            'keys' => [
-                ['content', 'sonata_simple_formatter_type', [
-                    'format' => 'richhtml'
-                ]],
-            ],
+        $formMapper->add('translations', 'a2lix_translations',[
+            'label' => 'app.form.label.translatable_fields',
+            'fields' => [
+                'translatableFields' => [
+                    'label' => false,
+                    'field_type' => 'sonata_type_immutable_array',
+                    'keys' => [
+                        ['content', 'sonata_simple_formatter_type', [
+                            'format' => 'richhtml'
+                        ]]
+                    ]
+                ]
+            ]
         ]);
     }
 

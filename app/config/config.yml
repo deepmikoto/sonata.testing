@@ -11,12 +11,17 @@ imports:
     - { resource: sonata/sonata_cache.yml }
     - { resource: sonata/sonata_notification.yml }
     - { resource: sonata/sonata_seo.yml }
+    - { resource: sonata/sonata_media.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    locales:
+        - en
+        - ro
     sonata.page.admin.page.class: Application\Sonata\PageBundle\Admin\PageAdmin
+    sonata.page.admin.block.class: Application\Sonata\PageBundle\Admin\BlockAdmin
 
 framework:
     #esi: ~
@@ -46,6 +51,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
+    globals:
+        locales: '%locales%'
 
 # Doctrine Configuration
 doctrine:
@@ -104,3 +111,13 @@ assetic:
     use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~
+
+knp_doctrine_behaviors:
+    translatable: true
+
+a2lix_translation_form:
+    locale_provider: default       # [1]
+    locales: '%locales%'              # [1-a]
+    default_locale: '%locale%'             # [1-b]
+    required_locales: '%locales%'         # [1-c]
+    templating: "A2lixTranslationFormBundle::default.html.twig"      # [2]

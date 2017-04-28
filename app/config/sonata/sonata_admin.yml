@@ -25,6 +25,8 @@ sonata_admin:
             - bundles/sonataadmin/Admin.js
             - bundles/sonataadmin/treeview.js
             - bundles/sonatapage/sonata-page.back.min.js
+            - bundles/a2lixtranslationform/js/a2lix_translation_bootstrap.js
+            - bundles/applicationsonatapage/js/extra.js
         stylesheets:
             - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
             - bundles/sonataformatter/markitup/skins/sonata/style.css

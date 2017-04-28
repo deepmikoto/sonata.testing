@@ -6,11 +6,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>{{ settings.title }}</h1>
-                        {% if settings.subtitle|length > 0 %}
+                        <h1>{{ block.translate(app.request.locale).translatableFields.title }}</h1>
+                        {% if block.translate(app.request.locale).translatableFields.subtitle|length > 0 %}
                             <hr class="small">
                         {% endif %}
-                        <h2 class="subheading">{{ settings.subtitle }}</h2>
+                        <h2 class="subheading">{{ block.translate(app.request.locale).translatableFields.subtitle }}</h2>
                     </div>
                 </div>
             </div>

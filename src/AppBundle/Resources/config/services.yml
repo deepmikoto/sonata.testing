@@ -1,5 +1,6 @@
 imports:
     - { resource: blocks.yml }
+    - { resource: admin.yml }
 
 services:
     app.menu_builder:
@@ -7,3 +8,8 @@ services:
         arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager", "@request_stack"]
         tags:
             - { name: knp_menu.menu_builder, method: createHomepageChildrenMenu, alias: homepageChildren }
+    app.locale_listener:
+        class: AppBundle\EventListeners\LocaleListener
+        arguments: ["@session", "%locale%"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

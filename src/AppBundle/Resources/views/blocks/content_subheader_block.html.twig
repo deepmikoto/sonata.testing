@@ -2,6 +2,6 @@
 
 {% block block %}
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <h2>{{ settings.subheader }}</h2>
+        <h2>{{ block.translate(app.request.locale).translatableFields.subheader }}</h2>
     </div>
 {% endblock %}

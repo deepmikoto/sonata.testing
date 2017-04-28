@@ -1,0 +1,12 @@
+services:
+    app.admin.tag_collection:
+        class: AppBundle\Admin\TagCollectionAdmin
+        arguments: [~, AppBundle\Entity\TagCollection, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: TagCollection, show_in_dashboard: false  }
+
+    app.admin.tag:
+        class: AppBundle\Admin\TagAdmin
+        arguments: [~, AppBundle\Entity\Tag, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: app.management, label: app.management.tags }

@@ -17,5 +17,11 @@
             <generator strategy="AUTO"/>
         </id>
 
+        <one-to-many target-entity="AppBundle\Entity\TagCollection" mapped-by="block" field="tagCollection">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

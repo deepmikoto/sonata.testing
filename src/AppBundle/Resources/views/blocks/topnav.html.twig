@@ -8,6 +8,16 @@
             <a class="navbar-brand" href="/">{{ sonata_seo_title()|striptags }}</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% if locales|length > 1 %}
+                <div class="nav navbar-nav navbar-right lang-dropdown">
+                    <span>{{ app.request.locale }}</span>
+                    <div class="lang-dropdown-content">
+                        {% for locale in locales if locale != app.request.locale %}
+                            <a href="{{ path('app_select_language', {'locale': locale}) }}">{{ locale }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
             {% set menu = knp_menu_get(menu, [], {'menu_class':block.settings.menu_class|default(''), 'children_class': block.settings.children_class|default('')}) %}
             {{ knp_menu_render(menu, menu_options) }}
         </div>
