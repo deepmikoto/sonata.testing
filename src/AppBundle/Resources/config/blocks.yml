@@ -50,3 +50,12 @@ services:
             - "@templating"
         tags:
             - { name: sonata.block }
+
+    app.sonata.block.tags:
+        class: AppBundle\Blocks\TagsBlock
+        arguments:
+            - app.sonata.block.tags
+            - "@templating"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: sonata.block }

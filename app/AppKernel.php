@@ -45,6 +45,12 @@ class AppKernel extends Kernel
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 
+            // Sonata Media
+            new Sonata\MediaBundle\SonataMediaBundle(),
+            // You need to add this dependency to make media functional
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
+
             new AppBundle\AppBundle(),
         );
 

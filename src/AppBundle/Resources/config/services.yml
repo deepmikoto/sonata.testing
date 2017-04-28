@@ -1,5 +1,6 @@
 imports:
     - { resource: blocks.yml }
+    - { resource: admin.yml }
 
 services:
     app.menu_builder:

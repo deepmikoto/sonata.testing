@@ -11,6 +11,7 @@ imports:
     - { resource: sonata/sonata_cache.yml }
     - { resource: sonata/sonata_notification.yml }
     - { resource: sonata/sonata_seo.yml }
+    - { resource: sonata/sonata_media.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -20,6 +21,7 @@ parameters:
         - en
         - ro
     sonata.page.admin.page.class: Application\Sonata\PageBundle\Admin\PageAdmin
+    sonata.page.admin.block.class: Application\Sonata\PageBundle\Admin\BlockAdmin
 
 framework:
     #esi: ~

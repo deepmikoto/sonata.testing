@@ -16,8 +16,11 @@ a,body {
 }
 
 body {
-    font-family: Lora,'Times New Roman',serif;
-    -webkit-tap-highlight-color: #0085A1
+    'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    -webkit-tap-highlight-color: #0085A1;
+    font-smooth: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: auto;
 }
 
 .intro-header .page-heading .subheading,.intro-header .post-heading .subheading,.intro-header .site-heading .subheading,.navbar-custom,h1,h2,h3,h4,h5,h6 {

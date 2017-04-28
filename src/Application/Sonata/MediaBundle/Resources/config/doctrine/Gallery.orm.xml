@@ -9,19 +9,13 @@
             association mapping  : http://www.doctrine-project.org/projects/orm/2.0/docs/reference/association-mapping/en
     -->
     <entity
-        name="Application\Sonata\PageBundle\Entity\Block"
-        table="page__block"
-        repository-class="Doctrine\ORM\EntityRepository">
+        name="Application\Sonata\MediaBundle\Entity\Gallery"
+        table="media__gallery"
+        >
 
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
         </id>
 
-        <one-to-many target-entity="AppBundle\Entity\TagCollection" mapped-by="block" field="tagCollection">
-            <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
-            </cascade>
-        </one-to-many>
     </entity>
 </doctrine-mapping>

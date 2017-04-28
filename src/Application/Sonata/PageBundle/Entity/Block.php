@@ -12,6 +12,8 @@
 namespace Application\Sonata\PageBundle\Entity;
 
 
+use AppBundle\Entity\TagCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Sonata\PageBundle\Entity\BaseBlock as BaseBlock;
 
@@ -29,6 +31,17 @@ class Block extends BaseBlock
     protected $id;
 
     /**
+     * @var TagCollection
+     */
+    protected $tagCollection;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->tagCollection = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return int $id
@@ -36,5 +49,40 @@ class Block extends BaseBlock
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add tagCollection
+     *
+     * @param \AppBundle\Entity\TagCollection $tagCollection
+     *
+     * @return Block
+     */
+    public function addTagCollection(TagCollection $tagCollection)
+    {
+        $tagCollection->setBlock($this);
+        $this->tagCollection[] = $tagCollection;
+
+        return $this;
+    }
+
+    /**
+     * Remove tagCollection
+     *
+     * @param \AppBundle\Entity\TagCollection $tagCollection
+     */
+    public function removeTagCollection(TagCollection $tagCollection)
+    {
+        $this->tagCollection->removeElement($tagCollection);
+    }
+
+    /**
+     * Get tagCollection
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTagCollection()
+    {
+        return $this->tagCollection;
     }
 }
