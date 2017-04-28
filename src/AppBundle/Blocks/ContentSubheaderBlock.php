@@ -19,20 +19,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContentSubheaderBlock extends AbstractAdminBlockService
 {
+    use EntityManagerAwareBlockTrait;
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'subheader' => null,
             'template'  => 'AppBundle:blocks:content_subheader_block.html.twig'
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         $settings = $blockContext->getSettings();
+        $block = $this->refreshBlock($blockContext->getBlock());
 
         return $this->renderResponse($blockContext->getTemplate(),[
-            'block' => $blockContext->getBlock(),
+            'block' => $block,
             'settings' => $settings
         ], $response);
     }

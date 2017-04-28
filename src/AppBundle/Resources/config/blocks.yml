@@ -12,6 +12,7 @@ services:
         arguments:
             - app.sonata.block.big.picture.title
             - "@templating"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: sonata.block }
 
@@ -20,6 +21,7 @@ services:
         arguments:
             - app.sonata.block.content.subheader
             - "@templating"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: sonata.block }
 
@@ -28,6 +30,7 @@ services:
         arguments:
             - app.sonata.block.content.wysiwyg
             - "@templating"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: sonata.block }
 

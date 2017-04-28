@@ -14,7 +14,6 @@ use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\CoreBundle\Model\Metadata;
-use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -25,40 +24,29 @@ use Symfony\Component\Validator\Constraints\Url;
 
 class BigPictureTitleBlock extends AbstractAdminBlockService
 {
+    use EntityManagerAwareBlockTrait;
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'image'     => null,
-            'title'     => null,
-            'subtitle'  => null,
             'template'  => 'AppBundle:blocks:big_picture_title_block.html.twig'
         ]);
     }
 
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
-    {
-        $errorElement
-            ->with('settings.image')
-                ->addConstraint(new NotNull())
-                ->addConstraint(new NotBlank())
-                ->addConstraint(new Url())
-            ->end()
-            ->with('settings.title')
-                ->addConstraint(new NotNull())
-                ->addConstraint(new NotBlank())
-                ->addConstraint(new Length([
-                    'max' => 20
-                ]))
-            ->end()
-        ;
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         $settings = $blockContext->getSettings();
+        $block = $this->refreshBlock($blockContext->getBlock());
 
         return $this->renderResponse($blockContext->getTemplate(),[
-            'block' => $blockContext->getBlock(),
+            'block' => $block,
             'settings' => $settings
         ], $response);
     }
@@ -70,11 +58,38 @@ class BigPictureTitleBlock extends AbstractAdminBlockService
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                ['image', 'text', ['required' => false]],
-                ['title', 'text', ['required' => false]],
-                ['subtitle', 'text', ['required' => false]],
+                ['image', 'text', [
+                    'required' => false,
+                    'constraints' => [
+                        new NotNull(),
+                        new NotBlank(),
+                        new Url()
+                    ]
+                ]],
             ),
         ));
+        $formMapper->add('translations', 'a2lix_translations',[
+            'label' => 'app.form.label.translatable_fields',
+            'fields' => [
+                'translatableFields' => [
+                    'label' => false,
+                    'field_type' => 'sonata_type_immutable_array',
+                    'keys' => [
+                        ['title', 'text', [
+                            'required' => false,
+                            'constraints' => [
+                                new NotNull(),
+                                new NotBlank(),
+                                new Length([
+                                    'max' => 30
+                                ])
+                            ]
+                        ]],
+                        ['subtitle', 'text', ['required' => false]]
+                    ]
+                ]
+            ]
+        ]);
     }
 
     /**

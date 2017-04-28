@@ -16,6 +16,9 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    locales:
+        - en
+        - ro
     sonata.page.admin.page.class: Application\Sonata\PageBundle\Admin\PageAdmin
 
 framework:
@@ -46,6 +49,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
+    globals:
+        locales: '%locales%'
 
 # Doctrine Configuration
 doctrine:
@@ -110,7 +115,7 @@ knp_doctrine_behaviors:
 
 a2lix_translation_form:
     locale_provider: default       # [1]
-    locales: [en, ro]              # [1-a]
-    default_locale: en             # [1-b]
-    required_locales: [en]         # [1-c]
+    locales: '%locales%'              # [1-a]
+    default_locale: '%locale%'             # [1-b]
+    required_locales: '%locales%'         # [1-c]
     templating: "A2lixTranslationFormBundle::default.html.twig"      # [2]
