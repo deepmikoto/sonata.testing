@@ -32,7 +32,7 @@ class BigPictureTitleBlock extends AbstractAdminBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'image'     => null,
+            'backgroundPosition'     => 'center center',
             'template'  => 'AppBundle:blocks:big_picture_title_block.html.twig'
         ]);
     }
@@ -58,16 +58,19 @@ class BigPictureTitleBlock extends AbstractAdminBlockService
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                ['image', 'text', [
-                    'required' => false,
-                    'constraints' => [
-                        new NotNull(),
-                        new NotBlank(),
-                        new Url()
+                ['backgroundPosition', 'choice', [
+                    'required' => true,
+                    'choices' => [
+                        'top' => 'Top',
+                        'center center' => 'Center',
+                        'bottom' => 'Bottom'
                     ]
                 ]],
             ),
         ));
+        $formMapper->add('image', 'sonata_type_model_list', [
+            'required' => false
+        ]);
         $formMapper->add('translations', 'a2lix_translations',[
             'label' => 'app.form.label.translatable_fields',
             'fields' => [

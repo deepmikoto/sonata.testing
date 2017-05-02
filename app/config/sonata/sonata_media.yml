@@ -16,14 +16,28 @@ sonata_media:
                 - sonata.media.provider.vimeo
 
             formats:
+                1920x1080: { width: 1920, height: 1080, quality: 100 }
+                1280x720:  { width: 1280, height: 720,  quality: 70 }
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
 
     cdn:
         server:
-            path: /uploads/media # http://media.sonata-project.org/
+            path: "http://s3.%s3_region%.amazonaws.com/%s3_bucket_name%/" #/uploads/media # http://media.sonata-project.org/
+
+    providers:
+        image:
+            thumbnail:  sonata.media.thumbnail.consumer.format
+            filesystem: sonata.media.filesystem.s3
 
     filesystem:
         local:
             directory:  "%kernel.root_dir%/../web/uploads/media"
             create:     false
+        s3:
+            bucket: "%s3_bucket_name%"
+            accessKey: "%s3_access_key%"
+            secretKey: "%s3_secret_key%"
+            region: "%s3_region%"
+            version: "2006-03-01"
+            sdk_version: 3

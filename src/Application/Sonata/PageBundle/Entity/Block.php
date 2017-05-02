@@ -13,6 +13,7 @@ namespace Application\Sonata\PageBundle\Entity;
 
 
 use AppBundle\Entity\TagCollection;
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Sonata\PageBundle\Entity\BaseBlock as BaseBlock;
@@ -34,6 +35,11 @@ class Block extends BaseBlock
      * @var TagCollection
      */
     protected $tagCollection;
+
+    /**
+     * @var Media
+     */
+    protected $image;
 
     public function __construct()
     {
@@ -84,5 +90,21 @@ class Block extends BaseBlock
     public function getTagCollection()
     {
         return $this->tagCollection;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param Media $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 }

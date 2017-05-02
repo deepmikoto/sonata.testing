@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+    s3_bucket_name: s3_bucket_name
+    s3_access_key: s3_access_key
+    s3_secret_key: s3_secret_key
+    s3_region: s3_region

@@ -23,5 +23,14 @@
                 <cascade-remove/>
             </cascade>
         </one-to-many>
+
+        <many-to-one target-entity="Application\Sonata\MediaBundle\Entity\Media" field="image">
+            <join-column name="image" on-delete="SET NULL" referenced-column-name="id">
+
+            </join-column>
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </many-to-one>
     </entity>
 </doctrine-mapping>
