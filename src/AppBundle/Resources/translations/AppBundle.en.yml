@@ -4,3 +4,6 @@ app:
         tags: Tags
     form:
         contact_page_subject_min: Please add at least one tag
+form:
+    label:
+        tag_collection: Tag collection
