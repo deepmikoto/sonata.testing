@@ -57,7 +57,6 @@ class TagsBlock extends AbstractAdminBlockService
                     'by_reference'       => false,
                     'cascade_validation' => true,
                     'label'              => 'form.label.tag_collection',
-                    'translation_domain' => 'AppBundle',
                     'constraints'        => [
                         new Count(
                             [
@@ -70,6 +69,7 @@ class TagsBlock extends AbstractAdminBlockService
                         'edit'     => 'inline',
                         'inline'   => 'table',
                         'sortable' => 'position',
+                        'translation_domain' => 'AppBundle'
                     ]
                 )
             ;

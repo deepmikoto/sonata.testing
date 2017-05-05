@@ -6,4 +6,6 @@ app:
         contact_page_subject_min: Please add at least one tag
 form:
     label:
+        tags: Tags
         tag_collection: Tag collection
+        tag_name: Name

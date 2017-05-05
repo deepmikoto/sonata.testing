@@ -51,8 +51,11 @@ class TagCollectionAdmin extends AbstractAdmin
                 ]
             ])
             ->add('tag', 'sonata_type_model_list', array(
-                    'label' => 'app.form.label.contact_subject'
-                )
+                    'label' => 'form.label.tags'
+                ),
+                [
+                    'translation_domain' => 'AppBundle'
+                ]
             )
         ;
     }

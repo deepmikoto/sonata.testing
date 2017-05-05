@@ -46,9 +46,10 @@ class TagAdmin extends AbstractAdmin
         $formMapper->add('translations', 'a2lix_translations',[
             'fields' => [
                 'name' => [
-                    'label' => 'app.form.label.tag_name',
+                    'label' => 'form.label.tag_name',
                     'field_type' => 'text',
-                    'required' => true
+                    'required' => true,
+                    'translation_domain' => 'AppBundle'
                 ]
             ]
         ]);
